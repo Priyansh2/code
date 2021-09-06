@@ -24,19 +24,46 @@ class NestedIterator {
             else flatten(x.getList());
         }
     }
+    stack<vector<NestedInteger>:: iterator> start,end;
+    
 public:
     NestedIterator(vector<NestedInteger> &nestedList) {
-        flatten(nestedList);
+        //flatten(nestedList);
+        start.push(nestedList.begin());
+        end.push(nestedList.end());
+        
     }
     
     int next() {
-        auto x = st.front();
+        /*auto x = st.front();
         st.pop();
+        return x;*/
+        int x = start.top()->getInteger();
+        start.top()++;
         return x;
     }
     
     bool hasNext() {
-        return !st.empty();
+        //return !st.empty();
+        while(!start.empty()){
+            if(start.top()==end.top()){
+                start.pop();
+                end.pop(); 
+            }
+            else{
+                
+                auto x = start.top();
+                if(x->isInteger()){
+                    return true;
+                }
+                
+                start.top()++;
+                start.push(x->getList().begin());
+                end.push(x->getList().end());
+                
+            }
+        }
+        return false;
     }
 };
 
