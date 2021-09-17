@@ -3,9 +3,7 @@ class dsu{
     unordered_map<int,int> parent;
     unordered_map<int,int> sz;
     unordered_map<int,int> rk;
-    int com;
-    dsu(int n){
-        com = n;
+    dsu(){
     }
     void init(int i ){
         sz[i] = 1;
@@ -32,14 +30,25 @@ class dsu{
 };
 class Solution {
 public:
+    int m = 1e4+5;
     int get_index(int i , int j){
-        int m = 1e4+5;
         return i*m +j;
     }
     int removeStones(vector<vector<int>>& stones) {
         int n = stones.size();
-        dsu d(n);
-        unordered_map<int,vector<vector<int>>> x_cor,y_cor;
+        dsu d;
+        for(int i = 0;i<n;i++){
+            d.init(stones[i][0]);
+            d.init(stones[i][1] + m);
+        }
+        for(int i =0;i<n;i++) d.merge(stones[i][0],stones[i][1] + m);
+        unordered_set<int> st;
+        for(int i =0;i<n;i++){
+            st.insert(d.find(stones[i][0]));
+        }
+        return n - st.size();
+        
+        /*unordered_map<int,vector<vector<int>>> x_cor,y_cor;
         for(auto s : stones){
             int id = get_index(s[0],s[1]);
             d.init(id);
@@ -75,6 +84,7 @@ public:
                 compo.insert(d.parent[id]);
             }
         }
-        return sum;
+        return sum;*/
+        
     }
 };
