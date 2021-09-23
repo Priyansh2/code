@@ -1,7 +1,7 @@
 class Solution {
 public:
     int INF = 1e9;
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+    int solve1(int n, vector<vector<int>>&flights, int src, int dst, int k){
         vector<vector<pair<int,int>>> adj(n);
         for(auto & e : flights){
             adj[e[0]].push_back({e[1],e[2]});
@@ -20,5 +20,23 @@ public:
             }
         }
         return dp[dst][k]== INF ? -1:dp[dst][k];
+    }
+    int solve2(int n, vector<vector<int>>&flights, int src, int dst, int k){
+        vector<vector<int>> dp(n,vector<int>(k+1,INF));
+        for(int i =0;i<=k;i++) dp[src][i] = 0;
+        for(auto &e : flights){
+            if(e[0]==src) dp[e[1]][0] = e[2];
+        }
+        for(int l = 1;l<=k;l++){
+            for(auto &e : flights){
+                dp[e[1]][l] = min(dp[e[1]][l],dp[e[0]][l-1] + e[2]);
+            }
+        }
+        return dp[dst][k]== INF ? -1:dp[dst][k];
+    }
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        //return solve1(n,flights,src,dst,k);
+        return solve2(n,flights,src,dst,k);
+        
     }
 };
