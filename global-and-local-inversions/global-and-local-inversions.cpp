@@ -51,8 +51,22 @@ public:
         }
         return true;
     }
+    bool solve3(vector<int> &nums){
+        int n  = nums.size();
+        for(int i =0;i<n-1;i++){
+            if(nums[i]  > nums[i+1]){
+                swap(nums[i],nums[i+1]);
+                i++;
+            }
+        }
+        for(int i =0;i<n-1;i++){
+            if(nums[i]  > nums[i+1]) return false;
+        }
+        return true;
+    }
     bool isIdealPermutation(vector<int>& nums) {
         //return solve1(nums);
-        return solve2(nums);
+        //return solve2(nums);
+        return solve3(nums);
     }
 };
