@@ -1,11 +1,13 @@
 class Solution:
     def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
-        queue = [str(i) for i in range(1,10)]
+        queue = deque()
+        for i in range(1,10):
+            queue.append(str(i))
         d = 1
-        while len(queue)!=0:
-            length = len(queue)
-            for i in range(length):
-                number = queue.pop(0)
+        while d<=n-1:
+            l = len(queue)
+            for x  in range(l):
+                number = queue.popleft()
                 candidate1 = int(number[-1]) + k
                 candidate2 = int(number[-1]) - k
                 if k==0:
@@ -16,6 +18,4 @@ class Solution:
                 if candidate2 >=0:
                     queue.append(number + str(candidate2))
             d+=1
-            if d==n:
-                break
         return queue    
